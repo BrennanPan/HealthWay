@@ -1,8 +1,10 @@
 var pollenOBJ ={
     "query": {
-        grassCategory : "",
-        grassDescription : "",
-        treeCategory : "",
-        treeDescription: "",
+        grassRisk : "",
+        treeRisk : "",
+        weedRisk : "",
+        gassCount : 0,
+        treeCount : 0,
+        weedCount : 0,
     }
 }
