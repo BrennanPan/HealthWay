@@ -4,11 +4,9 @@ var weatherObj ={
             "temp_c": 0.0,
             "temp_f": 0.0,
             "is_day": 0,
-            "condition": {
-                "text": "",
-                "icon": "",
-                "code": 0
-            },
+            "currentCondition": "",
+            "icon": "",
+            "code": 0,
             "wind_mph": 0.0,
             "wind_kph": 0.0,
             "wind_degree": 0,
