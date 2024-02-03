@@ -62,9 +62,14 @@ function App() {
   const handleClick = async () => {
     try {
       console.log("yre");
+<<<<<<< HEAD
       const response = await axios.post('http://localhost:5000/weather', { 'Latitude': lat, 'Longitude': long});
       setClicked(true);
 
+=======
+      const response = await axios.post('http://localhost:5000/pollen', { 'Latitude': lat, 'Longitude': long});
+      console.log(response.data)
+>>>>>>> f1f92cf36da609db18b5dc1e46908135652d338b
       setWeatherData(response.data)
       console.log("R")
 

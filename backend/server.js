@@ -7,6 +7,8 @@ const weatherAPI = require("./weatherAPI");
 const weatherObj = require('./weatherObj');
 const airqualityAPI = require("./airqualityAPI");
 const airqualityOBJ = require("./airqualityOBJ");
+const pollenAPI = require("./pollenAPI");
+const pollenObj = require("./pollenObj");
 const port = 5000;
 
 app.use(cors());
@@ -15,7 +17,6 @@ app.use(bodyparser.json());
 
 app.post('/weather', (req, response) =>{
     const origin = { lat: req.body.Latitude, long: req.body.Longitude};
-
 
     weatherAPI.getWeather(origin)
     .then(response =>{
@@ -35,16 +36,19 @@ app.post('/weather', (req, response) =>{
     })
     .then(() => {
         response.json(weatherObj);
+        console.log(weatherObj.temp_f);
         console.log("Success");
     }).catch(error => {
         console.log(error);
     });
 }); 
 
+
 app.post('/airquality', (req, response) =>{
     const origin = { lat: req.body.Latitude, long: req.body.Longitude};
+    console.log(origin);
 
-    airqualityAPI.getData(origin)
+    airqualityAPI.getAirQuality(origin)
     .then(response =>{
         airqualityOBJ.CO = response.stations[0].CO;
         airqualityOBJ.NO2 = response.stations[0].NO2;
@@ -56,6 +60,26 @@ app.post('/airquality', (req, response) =>{
     })
     .then(() => {
         response.json(airqualityOBJ);
+        console.log("Success");
+    }).catch(error => {
+        console.log(error);
+    });
+}); 
+
+app.post('/pollen', (req, response) =>{
+    const origin = { lat: req.body.Latitude, long: req.body.Longitude};
+
+    pollenAPI.getData(origin)
+    .then(response =>{
+        pollenObj.grassRisk = response.Risk.grass_pollen;
+        pollenObj.treeRisk = response.Risk.tree_pollen;
+        pollenObj.weedRisk = response.Risk.weed_pollen;
+        pollenObj.grassCount = response.Count.grass_pollen;
+        pollenObj.treeCount = response.Count.tree_pollen;
+        pollenObj.weedCount = response.Count.weed_pollen;
+    })
+    .then(() => {
+        response.json(pollenObj);
         console.log("Success");
     }).catch(error => {
         console.log(error);
