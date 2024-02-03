@@ -1,7 +1,7 @@
 const axios = require("axios").default;
 
 const getData = (origin) => {
-    return axios.get(`https://api.ambeedata.com/forecast/pollen/by-lat-lng?lat=${origin.lat}&lng=${origin.long}&x-api-key=aa59f084ddd391685f4a2de1bac6f07108b80de9e0c78999a1702d620e496edb`)
+    return axios.get(`https://api.ambeedata.com/forecast/pollen/by-lat-lng?lat=${origin.lat}&lng=${origin.long}&x-api-key=c15d9a0e62a375d724aa69436414c69d028fcdacbf77218716edc1cc7d38fd9b`)
     .then(res => {
         return res.data.data[0]
     }).catch(err => {
