@@ -1,12 +1,25 @@
 .App {
   text-align: center;
+  background-color: #87CEEB;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+.pageOne
+{
+  background-color: #87CEEB;
+}
 
+.title {
+  font-family: "Comfortaa", sans-serif;
+  color: white;
+  text-align: left;
+  font-size: 60px;
+  padding-left: 20px;
+  padding-top: 20px;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
