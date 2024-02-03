@@ -60,7 +60,7 @@ function App() {
     try {
       isclicked(true);
       console.log("yre");
-      const response = await axios.post('http://localhost:5000/airquality', { 'Latitude': lat, 'Longitude': long});
+      const response = await axios.post('http://localhost:5000/pollen', { 'Latitude': lat, 'Longitude': long});
       console.log(response.data)
       setWeatherData(response.data)
       console.log("R")

@@ -36,6 +36,7 @@ app.post('/weather', (req, response) =>{
     })
     .then(() => {
         response.json(weatherObj);
+        console.log(weatherObj.temp_f);
         console.log("Success");
     }).catch(error => {
         console.log(error);
@@ -69,18 +70,20 @@ app.post('/pollen', (req, response) =>{
     const origin = { lat: req.body.Latitude, long: req.body.Longitude};
 
     pollenAPI.getData(origin)
-    /*.then(response =>{
-        pollenObj.grassCategory = response.pollenTypeInfo[0].indexInfo.category;
-        pollenObj.grassDescription = response.pollenTypeInfo[0].indexInfo.indexDescription;
-        pollenObj.treeCategory = response.pollenTypeInfo[1].indexInfo.category;
-        pollenObj.treeDescription = response.pollenTypeInfo[1].indexInfo.indexDescription;
+    .then(response =>{
+        pollenObj.grassRisk = response.Risk.grass_pollen;
+        pollenObj.treeRisk = response.Risk.tree_pollen;
+        pollenObj.weedRisk = response.Risk.weed_pollen;
+        pollenObj.grassCount = response.Count.grass_pollen;
+        pollenObj.treeCount = response.Count.tree_pollen;
+        pollenObj.weedCount = response.Count.weed_pollen;
     })
     .then(() => {
         response.json(pollenObj);
         console.log("Success");
     }).catch(error => {
         console.log(error);
-    });*/
+    });
 }); 
 
 app.listen(port, () =>{
