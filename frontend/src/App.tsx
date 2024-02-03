@@ -29,13 +29,20 @@ function App() {
 
   const [locationName, setLocName] = useState();
   const [lat, setLat] = useState();
+  const [age, setAge] = useState();
+  const [name, setName] = useState();
+  const [gender, setGender] = useState();
+
   const [long, setLong] = useState();
   const [Rdata, setData] = useState();
-  //setKey(KEY);
-  //setLanguage("en");
-  //setRegion("es");
-
+  setKey("AIzaSyDPxFvD39w1dsueXMrpviPZGK1pS6DoyXY");
+  setLanguage("en");
+  setRegion("es");
+  const nothing = (event) => {
+  }
   const handleSetLocation = (event) => {
+    console.log("yre");
+
     setLocName(event.target.value);
     fromAddress(event.target.value)
       .then(({ results }) => {
@@ -48,16 +55,39 @@ function App() {
       .catch(console.error);
   };
 
+  const handleSetLat = (event) => {
+    console.log("yre");
+
+    setLat(event.target.value);
+  }
+  const handleSetLong = (event) => {
+    console.log("yre");
+
+    setLong(event.target.value);
+  }
   const handleClick = async () => {
     try {
+      console.log("yre");
       const response = await axios.post('http://localhost:5000/route', { 'Latitude': lat, 'Longitude': long});
       console.log(response.data)
       setData(response.data)
-      //someNestedValue = response.data?.['driving']?.['without']?.['emission'];
+      console.log("R")
 
     } catch (error) {
       console.error('Error sending POST request:', error);
     }
+  };
+
+  const handleStartChange = (event) => {
+    setLocName(event.target.value);
+    fromAddress(event.target.value)
+      .then(({ results }) => {
+        const { lat, lng } = results[0].geometry.location;
+        setLat(lat);
+        setLong(lng);
+        console.log("changed");
+      })
+      .catch(console.error);
   };
 
 
@@ -91,24 +121,32 @@ function App() {
         </ParallaxLayer>
         <ParallaxLayer offset={2} style={{backgroundColor:"	#b69f66"}}>
         <h2>Your Health Data</h2>
-        <CoolInput onChange={handleClick} placeholder="Name" ></CoolInput>
+        <CoolInput onChange={handleClick} placeholder="Name" value={name} ></CoolInput>
         <br></br>
-        <CoolInput onChange={handleClick} placeholder="Age" ></CoolInput>
+        <CoolInput onChange={handleClick} placeholder="Age" value={age}></CoolInput>
         <br></br>
-        <CoolInput onChange={handleClick} placeholder="Medical Condition" ></CoolInput>
+        <CoolInput onChange={nothing} placeholder="Medical Condition" value={age}></CoolInput>
         <br></br>
-        <CoolInput onChange={handleClick} placeholder="Gender" ></CoolInput>
+        <CoolInput onChange={nothing} placeholder="Gender" value={gender} ></CoolInput>
 
 
         <br></br>
 
         <h2>Location:</h2>
-        <CoolInput onChange={handleClick} placeholder="Location" ></CoolInput>
+        <CoolInput onChange={handleSetLocation} placeholder="Location" value={locationName} ></CoolInput>
         <br></br>
+        <CoolInput onChange={handleSetLat} placeholder="Latitude" value={lat} ></CoolInput>
+        <CoolInput onChange={handleSetLong} placeholder="Longitude" value={long} ></CoolInput>
+
         <br></br>
         <CartoonButton children={"Calculate"} onClick={handleClick} color='green'></CartoonButton>
-        
+        <input type="text" id="starting" name="starting" value={locationName} onChange={handleStartChange}></input>
 
+        <p>{lat}</p>
+        <p>{long}</p>
+        <p>{locationName}</p>
+        
+    
 
 
         </ParallaxLayer>
