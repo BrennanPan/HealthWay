@@ -66,6 +66,7 @@ function App() {
     try {
       console.log("yre");
       const response = await axios.post('http://localhost:5000/weather', { 'Latitude': lat, 'Longitude': long});
+      setWeatherData(response.data);
       setClicked(true);
 
 /*
