@@ -4,8 +4,9 @@ const cors = require('cors');
 const bodyparser = require('body-parser');
 const app = express();
 const weatherAPI = require("./weatherAPI");
-const airqualityAPI = require("./airqualityAPI");
 const weatherObj = require('./weatherObj');
+const airqualityAPI = require("./airqualityAPI");
+const airqualityOBJ = require("./airqualityOBJ");
 const port = 5000;
 
 app.use(cors());
@@ -14,8 +15,7 @@ app.use(bodyparser.json());
 
 app.post('/weather', (req, response) =>{
     const origin = { lat: req.body.Latitude, long: req.body.Longitude};
-    console.log(origin);
-   
+
 
     weatherAPI.getWeather(origin)
     .then(response =>{
@@ -41,10 +41,27 @@ app.post('/weather', (req, response) =>{
     });
 }); 
 
+app.post('/airquality', (req, response) =>{
+    const origin = { lat: req.body.Latitude, long: req.body.Longitude};
 
-
+    airqualityAPI.getData(origin)
+    .then(response =>{
+        airqualityOBJ.CO = response.stations[0].CO;
+        airqualityOBJ.NO2 = response.stations[0].NO2;
+        airqualityOBJ.OZONE = response.stations[0].OZONE;
+        airqualityOBJ.PM10 = response.stations[0].PM10;
+        airqualityOBJ.PM25 = response.stations[0].PM25;
+        airqualityOBJ.SO2 = response.stations[0].SO2;
+        airqualityOBJ.AQI = response.stations[0].AQI;
+    })
+    .then(() => {
+        response.json(airqualityOBJ);
+        console.log("Success");
+    }).catch(error => {
+        console.log(error);
+    });
+}); 
 
 app.listen(port, () =>{
     console.log(`Server running on port ${port}`);
 });
-
