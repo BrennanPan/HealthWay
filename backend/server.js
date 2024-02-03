@@ -14,9 +14,10 @@ app.use(bodyparser.json());
 
 app.post('/weather', (req, response) =>{
     const origin = { lat: req.body.lat, long: req.body.long};
+    console.log(req.body.lat)
     console.log(origin);
 
-    weatherAPI.getWeather(origin)
+    /*weatherAPI.getWeather(origin)
     .then(response =>{
         weatherObj.temp_c = response.current.temp_c;
         weatherObj.temp_f = response.current.temp_f;
@@ -35,7 +36,9 @@ app.post('/weather', (req, response) =>{
     .then(() => {
         response.json(weatherObj);
         console.log("Success");
-    })
+    }).catch(error => {
+        console.log(error);
+    });*/
 }); 
 
 console.log(weatherAPI.getWeather("London"));
