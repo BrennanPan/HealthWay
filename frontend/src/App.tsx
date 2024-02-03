@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import tree from './tree.png';
 import bush from './bush.png';
 import cloud from './cloud.png';
-import Button from 'react-bootstrap/Button';
+import axios from "axios";
 
 import {
   setKey,
@@ -21,6 +21,8 @@ import {
 
 import { Parallax, ParallaxLayer } from '@react-spring/parallax'
 import './App.css';
+import CoolInput from './CoolInput';
+import CartoonButton from './CartoonButton';
 
 function App() {
 
@@ -28,6 +30,10 @@ function App() {
   const [locationName, setLocName] = useState();
   const [lat, setLat] = useState();
   const [long, setLong] = useState();
+  const [Rdata, setData] = useState();
+  //setKey(KEY);
+  //setLanguage("en");
+  //setRegion("es");
 
   const handleSetLocation = (event) => {
     setLocName(event.target.value);
@@ -42,13 +48,25 @@ function App() {
       .catch(console.error);
   };
 
+  const handleClick = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/route', { 'Latitude': lat, 'Longitude': long});
+      console.log(response.data)
+      setData(response.data)
+      //someNestedValue = response.data?.['driving']?.['without']?.['emission'];
+
+    } catch (error) {
+      console.error('Error sending POST request:', error);
+    }
+  };
+
 
   return (
     <div className="App">
       
       <Parallax pages={5} style={{backgroundColor:"#87CEEB"}}>
         <ParallaxLayer speed={0.2} sticky={{ start: 0, end: 0.5 }}>
-          <h1 className='title'> Air Way </h1>
+          <h1 className='title'> HealthWay </h1>
           
         </ParallaxLayer>
         <ParallaxLayer speed={1}>
@@ -72,15 +90,25 @@ function App() {
         <h1 style={{fontSize:"60px", color:"#AFE1AF"}}> Want to learn about Pollen data near you?</h1>
         </ParallaxLayer>
         <ParallaxLayer offset={2} style={{backgroundColor:"	#b69f66"}}>
-        <h3>Pollen Calculate</h3>
-        <input></input>
+        <h2>Your Health Data</h2>
+        <CoolInput onChange={handleClick} placeholder="Name" ></CoolInput>
         <br></br>
-        <h4>Location:</h4>
-        <input value={locationName}></input>
+        <CoolInput onChange={handleClick} placeholder="Age" ></CoolInput>
         <br></br>
+        <CoolInput onChange={handleClick} placeholder="Medical Condition" ></CoolInput>
+        <br></br>
+        <CoolInput onChange={handleClick} placeholder="Gender" ></CoolInput>
+
+
         <br></br>
 
-        <Button variant="success">Success</Button>
+        <h2>Location:</h2>
+        <CoolInput onChange={handleClick} placeholder="Location" ></CoolInput>
+        <br></br>
+        <br></br>
+        <CartoonButton children={"Calculate"} onClick={handleClick} color='green'></CartoonButton>
+        
+
 
 
         </ParallaxLayer>
