@@ -36,6 +36,7 @@ app.post('/weather', (req, response) =>{
     })
     .then(() => {
         response.json(weatherObj);
+        console.log(weatherObj.temp_f);
         console.log("Success");
     }).catch(error => {
         console.log(error);

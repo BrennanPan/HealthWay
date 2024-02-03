@@ -24,6 +24,7 @@ import { Parallax, ParallaxLayer } from '@react-spring/parallax'
 import './App.css';
 import CoolInput from './CoolInput';
 import CartoonButton from './CartoonButton';
+import { click } from '@testing-library/user-event/dist/click';
 
 
 function App() {
@@ -37,8 +38,13 @@ function App() {
 
   const [long, setLong] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
+  const [airQuality, setairQuality] = useState(null);
+  const [pollenData, setPollen] = useState(null);
+
   const [test, setTest] = useState(null);
-  const [clicked ,isclicked] = useState(false);
+  const [clicked, setClicked] = useState(false);
+
+  const [medical, setMedical] = useState(null);
 
   setKey("AIzaSyDPxFvD39w1dsueXMrpviPZGK1pS6DoyXY");
   setLanguage("en");
@@ -58,11 +64,19 @@ function App() {
   }
   const handleClick = async () => {
     try {
-      isclicked(true);
       console.log("yre");
-      const response = await axios.post('http://localhost:5000/airquality', { 'Latitude': lat, 'Longitude': long});
-      console.log(response.data)
-      setWeatherData(response.data)
+      const response = await axios.post('http://localhost:5000/weather', { 'Latitude': lat, 'Longitude': long});
+      setWeatherData(response.data);
+      setClicked(true);
+
+/*
+      const responseP = await axios.post('http://localhost:5000/pollen', { 'Latitude': lat, 'Longitude': long});
+      setPollen(responseP.data)
+
+      const responseA = await axios.post('http://localhost:5000/airquality', { 'Latitude': lat, 'Longitude': long});
+      setairQuality(responseA.data);
+
+      */
       console.log("R")
 
     } catch (error) {
@@ -70,9 +84,21 @@ function App() {
     }
   };
 
+  const handleSetName = (event) => {
+      setName(event.target.value);
+  }
+  const handleMedical = (event) => {
+    setMedical(event.target.value);
+}
+  const handleSetAge = (event) => {
+      setAge(event.target.value);
+  }
+  const handleSetGender = (event) => {
+    setGender(event.target.value);
+}
   const handleSetLocation = (event) => {
-    setAge(event.target.value)
     setLocName(event.target.value);
+    
     fromAddress(event.target.value)
       .then(({ results }) => {
         const { lat, lng } = results[0].geometry.location;
@@ -81,6 +107,7 @@ function App() {
         setTest(event.target.value);
       })
       .catch(console.error);
+      
     }
 
 
@@ -115,13 +142,13 @@ function App() {
         </ParallaxLayer>
         <ParallaxLayer offset={2} style={{backgroundColor:"	#b69f66"}}>
         <h2>Your Health Data</h2>
-        <CoolInput onChange={handleClick} placeholder="Name" value={name} ></CoolInput>
+        <CoolInput onChange={handleSetName} placeholder="Name" value={name} ></CoolInput>
         <br></br>
-        <CoolInput onChange={handleClick} placeholder="Age" value={age}></CoolInput>
+        <CoolInput onChange={handleSetAge} placeholder="Age" value={age}></CoolInput>
         <br></br>
-        <CoolInput onChange={nothing} placeholder="Medical Condition" value={age}></CoolInput>
+        <CoolInput onChange={handleMedical} placeholder="Medical Condition" value={medical}></CoolInput>
         <br></br>
-        <CoolInput onChange={nothing} placeholder="Gender" value={gender} ></CoolInput>
+        <CoolInput onChange={handleSetGender} placeholder="Gender" value={gender} ></CoolInput>
 
 
         <br></br>
@@ -134,14 +161,49 @@ function App() {
         <CartoonButton children={"Calculate"} onClick={handleClick} color='green'></CartoonButton>
 
 
-        {isclicked && (
-        <h1>I was clicked</h1>
+        {clicked && (
+          <div>
+            <ParallaxLayer offset={2} speed={0.5}>
+          <h1 style={{color:"white"}}>Welcome {name},</h1>
+          <h3 style={{color:"white"}}>This is your Personal Environment Advising Report</h3>
+        </ParallaxLayer>
+        <br></br>
+        <br></br>
+        <ParallaxLayer offset={3} speed={0.5}>
+        <h1 style={{color:"white"}}>Tempature in your area is {weatherData.temp_f} F</h1>
+        {weatherData && weatherData.temp_f !== null && weatherData.temp_f < 30 && (
+                    <h3 style={{color:"blue", opacity:"0.7"}}>That's pretty cold</h3>
+        )}
+        {weatherData && weatherData.temp_f !== null && weatherData.temp_f < 60 && (
+                    <h3 style={{color:"white", opacity:"0.7"}}>You are chilling</h3>
+        )}
+        {weatherData && weatherData.temp_f !== null && weatherData.temp_f > 70 && (
+                    <h3 style={{color:"red", opacity:"0.7"}}>It's pretty hot</h3>
+        )}     
+      </ParallaxLayer>
+
+      <br></br>
+        <ParallaxLayer offset={5} speed={0.5}>
+        <h1 style={{color:"white"}}>Humidity in your area is {weatherData.humidity} %</h1>
+        {weatherData && weatherData.humidity !== null && weatherData.humidity < 25 && (
+                    <h3 style={{color:"blue", opacity:"0.7"}}>You are in low humidity</h3>
+        )}
+        {weatherData && weatherData.humidity !== null && weatherData.humidity < 45 && (
+                    <h3 style={{color:"white", opacity:"0.7"}}>There is average humidity</h3>
+        )}
+        {weatherData && weatherData.humidity !== null && weatherData.humidity > 45 && (
+                    <h3 style={{color:"red", opacity:"0.7"}}>It's pretty muggy outside huh!</h3>
+        )}     
+      </ParallaxLayer>
+          </div>
+          
+        
       )}
         </ParallaxLayer>
 
      
 
-   
+      <h3 style={{color:"white", opacity:"0.5"}}>By Shaunak, Brennan, Nyan, and Pranav</h3>
       </Parallax>
       </div>
       
