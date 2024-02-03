@@ -98,7 +98,7 @@ function App() {
 }
   const handleSetLocation = (event) => {
     setLocName(event.target.value);
-    /*
+    
     fromAddress(event.target.value)
       .then(({ results }) => {
         const { lat, lng } = results[0].geometry.location;
@@ -106,8 +106,8 @@ function App() {
         setLong(lng);
         setTest(event.target.value);
       })
-      .catch(console.error);'
-      */
+      .catch(console.error);
+      
     }
 
 
@@ -203,7 +203,7 @@ function App() {
 
      
 
-   
+      <h3 style={{color:"white", opacity:"0.5"}}>By Shaunak, Brennan, Nyan, and Pranav</h3>
       </Parallax>
       </div>
       
