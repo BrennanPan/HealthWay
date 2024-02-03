@@ -4,6 +4,9 @@ import tree from './tree.png';
 import bush from './bush.png';
 import cloud from './cloud.png';
 import axios from "axios";
+import ScrollAnimation from 'react-animate-on-scroll';
+import { Animator, ScrollContainer, ScrollPage, batch, Fade, FadeIn, FadeOut, Move, MoveIn, MoveOut, Sticky, StickyIn, StickyOut, Zoom, ZoomIn, ZoomOut } from "react-scroll-motion";
+
 
 import {
   setKey,
@@ -24,6 +27,7 @@ import './App.css';
 import CoolInput from './CoolInput';
 import CartoonButton from './CartoonButton';
 
+
 function App() {
 
 
@@ -34,8 +38,12 @@ function App() {
   const [gender, setGender] = useState();
 
   const [long, setLong] = useState();
-  const [Rdata, setData] = useState();
+  const [weatherData, setWeatherData] = useState();
   const [test, setTest] = useState();
+
+  const ZoomInScrollOut = batch(StickyIn(), FadeIn(), ZoomIn());
+const FadeUp = batch(Fade(), Move(), Sticky());
+
   setKey("AIzaSyDPxFvD39w1dsueXMrpviPZGK1pS6DoyXY");
   setLanguage("en");
   setRegion("es");
@@ -57,7 +65,7 @@ function App() {
       console.log("yre");
       const response = await axios.post('http://localhost:5000/weather', { 'Latitude': lat, 'Longitude': long});
       console.log(response.data)
-      setData(response.data)
+      setWeatherData(response.data)
       console.log("R")
 
     } catch (error) {
@@ -80,8 +88,8 @@ function App() {
 
   return (
     <div className="App">
-      
-      <Parallax pages={5} style={{backgroundColor:"#87CEEB"}}>
+      <div>
+      <Parallax pages={7} style={{backgroundColor:"#87CEEB"}}>
         <ParallaxLayer speed={0.2} sticky={{ start: 0, end: 0.5 }}>
           <h1 className='title'> HealthWay </h1>
           
@@ -115,6 +123,9 @@ function App() {
         <CoolInput onChange={nothing} placeholder="Medical Condition" value={age}></CoolInput>
         <br></br>
         <CoolInput onChange={nothing} placeholder="Gender" value={gender} ></CoolInput>
+        <ScrollAnimation offset="10" animateIn="fadeIn">
+          dthsdfghfgh
+        </ScrollAnimation>
 
 
         <br></br>
@@ -129,7 +140,23 @@ function App() {
         <CartoonButton children={"Calculate"} onClick={handleClick} color='green'></CartoonButton>
 
         </ParallaxLayer>
+        {weatherData &&
+        (
+          <ParallaxLayer>
+              I Got Data
+          </ParallaxLayer>
+        )
+        }
+        
+       
+   
       </Parallax>
+      </div>
+      <div style={{position:"relative", bottom:"100"}}>
+     
+
+      </div>
+
     </div>
   );
 }
