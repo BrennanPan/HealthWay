@@ -7,6 +7,8 @@ const weatherAPI = require("./weatherAPI");
 const weatherObj = require('./weatherObj');
 const airqualityAPI = require("./airqualityAPI");
 const airqualityOBJ = require("./airqualityOBJ");
+const pollenAPI = require("./pollenAPI");
+const pollenObj = require("./pollenObj");
 const port = 5000;
 
 app.use(cors());
@@ -56,6 +58,24 @@ app.post('/airquality', (req, response) =>{
     })
     .then(() => {
         response.json(airqualityOBJ);
+        console.log("Success");
+    }).catch(error => {
+        console.log(error);
+    });
+}); 
+
+app.post('/pollen', (req, response) =>{
+    const origin = { lat: req.body.Latitude, long: req.body.Longitude};
+
+    pollenAPI.getData(origin)
+    .then(response =>{
+        pollenObj.grassCategory = response.pollenTypeInfo[0].indexInfo.category;
+        pollenObj.grassDescription = response.pollenTypeInfo[0].indexInfo.indexDescription;
+        pollenObj.treeCategory = response.pollenTypeInfo[1].indexInfo.category;
+        pollenObj.treeDescription = response.pollenTypeInfo[1].indexInfo.indexDescription;
+    })
+    .then(() => {
+        response.json(pollenObj);
         console.log("Success");
     }).catch(error => {
         console.log(error);
