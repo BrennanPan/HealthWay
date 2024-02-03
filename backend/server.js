@@ -69,7 +69,7 @@ app.post('/pollen', (req, response) =>{
     const origin = { lat: req.body.Latitude, long: req.body.Longitude};
 
     pollenAPI.getData(origin)
-    .then(response =>{
+    /*.then(response =>{
         pollenObj.grassCategory = response.pollenTypeInfo[0].indexInfo.category;
         pollenObj.grassDescription = response.pollenTypeInfo[0].indexInfo.indexDescription;
         pollenObj.treeCategory = response.pollenTypeInfo[1].indexInfo.category;
@@ -80,7 +80,7 @@ app.post('/pollen', (req, response) =>{
         console.log("Success");
     }).catch(error => {
         console.log(error);
-    });
+    });*/
 }); 
 
 app.listen(port, () =>{
