@@ -3,7 +3,10 @@ import logo from './logo.svg';
 import tree from './tree.png';
 import bush from './bush.png';
 import cloud from './cloud.png';
-import Button from 'react-bootstrap/Button';
+import axios from "axios";
+import ScrollAnimation from 'react-animate-on-scroll';
+import { Animator, ScrollContainer, ScrollPage, batch, Fade, FadeIn, FadeOut, Move, MoveIn, MoveOut, Sticky, StickyIn, StickyOut, Zoom, ZoomIn, ZoomOut } from "react-scroll-motion";
+
 
 import {
   setKey,
@@ -21,34 +24,74 @@ import {
 
 import { Parallax, ParallaxLayer } from '@react-spring/parallax'
 import './App.css';
+import CoolInput from './CoolInput';
+import CartoonButton from './CartoonButton';
+
 
 function App() {
 
 
   const [locationName, setLocName] = useState();
   const [lat, setLat] = useState();
+  const [age, setAge] = useState();
+  const [name, setName] = useState();
+  const [gender, setGender] = useState();
+
   const [long, setLong] = useState();
+  const [weatherData, setWeatherData] = useState();
+  const [test, setTest] = useState();
+
+  const ZoomInScrollOut = batch(StickyIn(), FadeIn(), ZoomIn());
+const FadeUp = batch(Fade(), Move(), Sticky());
+
+  setKey("AIzaSyDPxFvD39w1dsueXMrpviPZGK1pS6DoyXY");
+  setLanguage("en");
+  setRegion("es");
+  const nothing = (event) => {
+  }
+
+  const handleSetLat = (event) => {
+    console.log("yre");
+
+    setLat(event.target.value);
+  }
+  const handleSetLong = (event) => {
+    console.log("yre");
+
+    setLong(event.target.value);
+  }
+  const handleClick = async () => {
+    try {
+      console.log("yre");
+      const response = await axios.post('http://localhost:5000/weather', { 'Latitude': lat, 'Longitude': long});
+      console.log(response.data)
+      setWeatherData(response.data)
+      console.log("R")
+
+    } catch (error) {
+      console.error('Error sending POST request:', error);
+    }
+  };
 
   const handleSetLocation = (event) => {
     setLocName(event.target.value);
     fromAddress(event.target.value)
       .then(({ results }) => {
-        const { lata, lnga } = results[0].geometry.location;
-        setLat(lata);
-        setLong(lnga);
-        
-        console.log("changed");
+        const { lat, lng } = results[0].geometry.location;
+        setLat(lat);
+        setLong(lng);
+        setTest(event.target.value);
       })
       .catch(console.error);
-  };
+    }
 
 
   return (
     <div className="App">
-      
-      <Parallax pages={5} style={{backgroundColor:"#87CEEB"}}>
+      <div>
+      <Parallax pages={7} style={{backgroundColor:"#87CEEB"}}>
         <ParallaxLayer speed={0.2} sticky={{ start: 0, end: 0.5 }}>
-          <h1 className='title'> Air Way </h1>
+          <h1 className='title'> HealthWay </h1>
           
         </ParallaxLayer>
         <ParallaxLayer speed={1}>
@@ -72,19 +115,48 @@ function App() {
         <h1 style={{fontSize:"60px", color:"#AFE1AF"}}> Want to learn about Pollen data near you?</h1>
         </ParallaxLayer>
         <ParallaxLayer offset={2} style={{backgroundColor:"	#b69f66"}}>
-        <h3>Pollen Calculate</h3>
-        <input></input>
+        <h2>Your Health Data</h2>
+        <CoolInput onChange={handleClick} placeholder="Name" value={name} ></CoolInput>
         <br></br>
-        <h4>Location:</h4>
-        <input value={locationName}></input>
+        <CoolInput onChange={handleClick} placeholder="Age" value={age}></CoolInput>
         <br></br>
+        <CoolInput onChange={nothing} placeholder="Medical Condition" value={age}></CoolInput>
+        <br></br>
+        <CoolInput onChange={nothing} placeholder="Gender" value={gender} ></CoolInput>
+        <ScrollAnimation offset="10" animateIn="fadeIn">
+          dthsdfghfgh
+        </ScrollAnimation>
+
+
         <br></br>
 
-        <Button variant="success">Success</Button>
+        <h2>Location:</h2>
+        <CoolInput onChange={handleSetLocation} placeholder="Location" value={locationName} ></CoolInput>
+        <br></br>
+        <CoolInput onChange={handleSetLat} placeholder="Latitude" value={lat} ></CoolInput>
+        <CoolInput onChange={handleSetLong} placeholder="Longitude" value={long} ></CoolInput>
 
+        <br></br>
+        <CartoonButton children={"Calculate"} onClick={handleClick} color='green'></CartoonButton>
 
         </ParallaxLayer>
+        {weatherData &&
+        (
+          <ParallaxLayer>
+              I Got Data
+          </ParallaxLayer>
+        )
+        }
+        
+       
+   
       </Parallax>
+      </div>
+      <div style={{position:"relative", bottom:"100"}}>
+     
+
+      </div>
+
     </div>
   );
 }
