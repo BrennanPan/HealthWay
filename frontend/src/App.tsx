@@ -69,10 +69,10 @@ function App() {
       setWeatherData(response.data);
       setClicked(true);
 
-/*
+
       const responseP = await axios.post('http://localhost:5000/pollen', { 'Latitude': lat, 'Longitude': long});
       setPollen(responseP.data)
-
+/*
       const responseA = await axios.post('http://localhost:5000/airquality', { 'Latitude': lat, 'Longitude': long});
       setairQuality(responseA.data);
 
@@ -114,7 +114,7 @@ function App() {
   return (
     <div className="App">
       <div>
-      <Parallax pages={7} style={{backgroundColor:"#87CEEB"}}>
+      <Parallax pages={10} style={{backgroundColor:"#87CEEB"}}>
       <ParallaxLayer speed={0.2} sticky={{ start: 0, end: 0.5 }}>
 
           <h1 className='title'> HealthWay </h1>
@@ -183,19 +183,94 @@ function App() {
       </ParallaxLayer>
 
       <br></br>
-        <ParallaxLayer offset={5} speed={0.5}>
+        <ParallaxLayer offset={4} speed={0.5}>
         <h1 style={{color:"white"}}>Humidity in your area is {weatherData.humidity} %</h1>
-        {weatherData && weatherData.humidity !== null && weatherData.humidity < 25 && (
+        {weatherData && weatherData.humidity !== null && weatherData.humidity < 20 && (
                     <h3 style={{color:"blue", opacity:"0.7"}}>You are in low humidity</h3>
         )}
-        {weatherData && weatherData.humidity !== null && weatherData.humidity < 45 && (
+        {weatherData && weatherData.humidity !== null && weatherData.humidity < 50 && (
                     <h3 style={{color:"white", opacity:"0.7"}}>There is average humidity</h3>
         )}
-        {weatherData && weatherData.humidity !== null && weatherData.humidity > 45 && (
+        {weatherData && weatherData.humidity !== null && weatherData.humidity > 50 && (
                     <h3 style={{color:"red", opacity:"0.7"}}>It's pretty muggy outside huh!</h3>
-        )}     
-      </ParallaxLayer>
-          </div>
+        )} 
+        </ParallaxLayer>
+
+        <ParallaxLayer offset={5} speed={0.5}>
+        <h1 style={{color:"white"}}>UV in your area is {weatherData.uv} %</h1>
+        {weatherData && weatherData.uv !== null && weatherData.uv < 2 && (
+                    <h3 style={{color:"blue", opacity:"0.7"}}>The UV in your area is good. Go Outside!</h3>
+        )}
+        {weatherData && weatherData.uv !== null && weatherData.uv < 7 && weatherData.uv > 2 && (
+                    <h3 style={{color:"white", opacity:"0.7"}}>There is average UV</h3>
+        )}
+        {weatherData && weatherData.uv !== null && weatherData.uv > 8 && (
+                    <h3 style={{color:"red", opacity:"0.7"}}>Avoid being outside for extended peroids of time</h3>
+        )} 
+        {medical == "Skin Cancer" && (
+                    <h3 style={{color:"lightred", opacity:"0.7"}}>Due to your history of Skin Cancer. You wear sunscreen and put on a hat</h3>
+        )} 
+        </ParallaxLayer>
+
+        
+        <ParallaxLayer offset={6} speed={0.5}>
+        <h1 style={{color:"white"}}>RainFall is in your area {weatherData.precip_in} %</h1>
+        {weatherData && weatherData.precip_in !== null && weatherData.precip_in < 0.1 && (
+                    <h3 style={{color:"blue", opacity:"0.7"}}>There is little to no rain</h3>
+        )}
+        {weatherData && weatherData.precip_in !== null && weatherData.precip_in < 0.1 && weatherData.precip_in > 0.3 && (
+                    <h3 style={{color:"white", opacity:"0.7"}}>This is moderate rainfall. I wouldn't plan to be outside long</h3>
+        )}
+        {weatherData && weatherData.precip_in !== null && weatherData.precip_in > 0.3 && (
+                    <h3 style={{color:"red", opacity:"0.7"}}>Avoid being outside for extended peroids of time</h3>
+        )} 
+        {medical == "Skin Cancer" && (
+                    <h3 style={{color:"lightred", opacity:"0.7"}}>Definitely bring an umbrella. Maybe even a poncho?</h3>
+        )} 
+        </ParallaxLayer>
+        
+
+
+        <ParallaxLayer offset={7} speed={0.5}>
+        <h1 style={{color:"white"}}>Pollen Information in your area:</h1>
+        {pollenData && pollenData.query?.grassRisk !== null && pollenData.query?.grassRisk == "low" && (
+                    <h3 style={{color:"green", opacity:"0.7"}}>Grass Risk: {pollenData.query?.grassRisk}</h3>
+        )}
+        {pollenData && pollenData.query?.grassRisk !== null && pollenData.query?.grassRisk == "Medium" && (
+                    <h3 style={{color:"orange", opacity:"0.7"}}>Grass Risk: {pollenData.query?.grassrisk}</h3>
+        )}
+        {pollenData && pollenData.query?.grassRisk !== null && pollenData.query?.grassRisk == "High" && (
+                    <h3 style={{color:"red", opacity:"0.7"}}>Grass Risk: {pollenData.query?.grassRisk}</h3>
+        )}
+
+        {pollenData && pollenData.query?.treeRisk !== null && pollenData.query?.treeRsk == "low" && (
+                    <h3 style={{color:"green", opacity:"0.7"}}>Tree Risk: {pollenData.query?.treerisk}</h3>
+        )}
+        {pollenData && pollenData.query?.treeRisk !== null && pollenData.query?.treeRisk == "medium" && (
+                    <h3 style={{color:"orange", opacity:"0.7"}}>Tree Risk: {pollenData.query?.treerisk}</h3>
+        )}
+        {pollenData && pollenData.query?.treeRisk !== null && pollenData.query?.treeRisk == "migh" && (
+                    <h3 style={{color:"red", opacity:"0.7"}}>Tree Risk: {pollenData.query?.treeRisk}</h3>
+        )}
+
+
+        {pollenData && pollenData.query?.weedRisk !== null && pollenData.query?.weedRisk == "low" && (
+                    <h3 style={{color:"green", opacity:"0.7"}}>Weed Risk: {pollenData.query?.weedRisk}</h3>
+        )}
+        {pollenData && pollenData.query?.weedRisk !== null && pollenData.query?.weedRisk == "medium" && (
+                    <div><h3>Weed Risk: </h3> 
+                    <h3 style={{color:"orange", opacity:"0.7"}}>{pollenData.query?.weedRisk}</h3></div>
+                    
+        )}
+        {pollenData && pollenData.query?.weedRisk !== null && pollenData.query?.weedRisk == "migh" && (
+                    <h3 style={{color:"red", opacity:"0.7"}}>Weed Risk: {pollenData.query?.weedRisk}</h3>
+        )}
+      
+        </ParallaxLayer>
+        
+
+
+        </div>
           
         
       )}
