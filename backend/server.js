@@ -15,8 +15,6 @@ app.use(bodyparser.json());
 
 app.post('/weather', (req, response) =>{
     const origin = { lat: req.body.Latitude, long: req.body.Longitude};
-<<<<<<< HEAD
-   
 
     weatherAPI.getWeather(origin)
     .then(response =>{
@@ -42,42 +40,12 @@ app.post('/weather', (req, response) =>{
     });
 }); 
 
-
-    console.log(weatherAPI.getWeather(origin));
-    
-    console.log("testing");
-=======
-
->>>>>>> 1e95406dca516643f8f8bd73a59c874d9626ec6b
-
-    weatherAPI.getWeather(origin)
-    .then(response =>{
-        weatherObj.temp_c = response.current.temp_c;
-        weatherObj.temp_f = response.current.temp_f;
-        weatherObj.currentCondition = response.current.condition.text;
-        weatherObj.wind_mph = response.current.wind_mph;
-        weatherObj.wind_dir = response.current.wind_dir;
-        weatherObj.pressure_in = response.current.pressure_in;
-        weatherObj.precip_in = response.current.precip_in;
-        weatherObj.humidity = response.current.humidity;
-        weatherObj.cloud = response.current.cloud;
-        weatherObj.feelslife_f = response.current.feelslife_f;
-        weatherObj.vis_miles = response.current.vis_miles;
-        weatherObj.uv = response.current.uv;
-        weatherObj.gust_mph = response.current.gust_mph;
-    })
-    .then(() => {
-        response.json(weatherObj);
-        console.log("Success");
-    }).catch(error => {
-        console.log(error);
-    });
-}); 
 
 app.post('/airquality', (req, response) =>{
     const origin = { lat: req.body.Latitude, long: req.body.Longitude};
+    console.log(origin);
 
-    airqualityAPI.getData(origin)
+    airqualityAPI.getAirQuality(origin)
     .then(response =>{
         airqualityOBJ.CO = response.stations[0].CO;
         airqualityOBJ.NO2 = response.stations[0].NO2;
