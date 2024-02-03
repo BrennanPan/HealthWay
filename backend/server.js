@@ -14,7 +14,6 @@ app.use(bodyparser.json());
 
 app.post('/weather', (req, response) =>{
     const origin = { lat: req.body.Latitude, long: req.body.Longitude};
-    console.log(origin);
    
 
     weatherAPI.getWeather(origin)
