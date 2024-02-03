@@ -35,25 +35,12 @@ function App() {
 
   const [long, setLong] = useState();
   const [Rdata, setData] = useState();
+  const [test, setTest] = useState();
   setKey("AIzaSyDPxFvD39w1dsueXMrpviPZGK1pS6DoyXY");
   setLanguage("en");
   setRegion("es");
   const nothing = (event) => {
   }
-  const handleSetLocation = (event) => {
-    console.log("yre");
-
-    setLocName(event.target.value);
-    fromAddress(event.target.value)
-      .then(({ results }) => {
-        const { lata, lnga } = results[0].geometry.location;
-        setLat(lata);
-        setLong(lnga);
-        
-        console.log("changed");
-      })
-      .catch(console.error);
-  };
 
   const handleSetLat = (event) => {
     console.log("yre");
@@ -78,17 +65,17 @@ function App() {
     }
   };
 
-  const handleStartChange = (event) => {
+  const handleSetLocation = (event) => {
     setLocName(event.target.value);
     fromAddress(event.target.value)
       .then(({ results }) => {
         const { lat, lng } = results[0].geometry.location;
         setLat(lat);
         setLong(lng);
-        console.log("changed");
+        setTest(event.target.value);
       })
       .catch(console.error);
-  };
+    }
 
 
   return (
@@ -140,14 +127,6 @@ function App() {
 
         <br></br>
         <CartoonButton children={"Calculate"} onClick={handleClick} color='green'></CartoonButton>
-        <input type="text" id="starting" name="starting" value={locationName} onChange={handleStartChange}></input>
-
-        <p>{lat}</p>
-        <p>{long}</p>
-        <p>{locationName}</p>
-        
-    
-
 
         </ParallaxLayer>
       </Parallax>
