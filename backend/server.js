@@ -18,7 +18,6 @@ app.use(bodyparser.json());
 app.post('/weather', (req, response) =>{
     const origin = { lat: req.body.Latitude, long: req.body.Longitude};
 
-
     weatherAPI.getWeather(origin)
     .then(response =>{
         weatherObj.temp_c = response.current.temp_c;
@@ -43,10 +42,12 @@ app.post('/weather', (req, response) =>{
     });
 }); 
 
+
 app.post('/airquality', (req, response) =>{
     const origin = { lat: req.body.Latitude, long: req.body.Longitude};
+    console.log(origin);
 
-    airqualityAPI.getData(origin)
+    airqualityAPI.getAirQuality(origin)
     .then(response =>{
         airqualityOBJ.CO = response.stations[0].CO;
         airqualityOBJ.NO2 = response.stations[0].NO2;

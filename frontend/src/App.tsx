@@ -4,8 +4,6 @@ import tree from './tree.png';
 import bush from './bush.png';
 import cloud from './cloud.png';
 import axios from "axios";
-import ScrollAnimation from 'react-animate-on-scroll';
-import { Animator, ScrollContainer, ScrollPage, batch, Fade, FadeIn, FadeOut, Move, MoveIn, MoveOut, Sticky, StickyIn, StickyOut, Zoom, ZoomIn, ZoomOut } from "react-scroll-motion";
 
 
 import {
@@ -31,18 +29,16 @@ import CartoonButton from './CartoonButton';
 function App() {
 
 
-  const [locationName, setLocName] = useState();
-  const [lat, setLat] = useState();
-  const [age, setAge] = useState();
-  const [name, setName] = useState();
-  const [gender, setGender] = useState();
+  const [locationName, setLocName] = useState(null);
+  const [lat, setLat] = useState(null);
+  const [age, setAge] = useState(null);
+  const [name, setName] = useState(null);
+  const [gender, setGender] = useState(null);
 
-  const [long, setLong] = useState();
-  const [weatherData, setWeatherData] = useState();
-  const [test, setTest] = useState();
-
-  const ZoomInScrollOut = batch(StickyIn(), FadeIn(), ZoomIn());
-const FadeUp = batch(Fade(), Move(), Sticky());
+  const [long, setLong] = useState(null);
+  const [weatherData, setWeatherData] = useState(null);
+  const [test, setTest] = useState(null);
+  const [clicked ,isclicked] = useState(false);
 
   setKey("AIzaSyDPxFvD39w1dsueXMrpviPZGK1pS6DoyXY");
   setLanguage("en");
@@ -62,8 +58,9 @@ const FadeUp = batch(Fade(), Move(), Sticky());
   }
   const handleClick = async () => {
     try {
+      isclicked(true);
       console.log("yre");
-      const response = await axios.post('http://localhost:5000/weather', { 'Latitude': lat, 'Longitude': long});
+      const response = await axios.post('http://localhost:5000/airquality', { 'Latitude': lat, 'Longitude': long});
       console.log(response.data)
       setWeatherData(response.data)
       console.log("R")
@@ -74,6 +71,7 @@ const FadeUp = batch(Fade(), Move(), Sticky());
   };
 
   const handleSetLocation = (event) => {
+    setAge(event.target.value)
     setLocName(event.target.value);
     fromAddress(event.target.value)
       .then(({ results }) => {
@@ -90,12 +88,13 @@ const FadeUp = batch(Fade(), Move(), Sticky());
     <div className="App">
       <div>
       <Parallax pages={7} style={{backgroundColor:"#87CEEB"}}>
-        <ParallaxLayer speed={0.2} sticky={{ start: 0, end: 0.5 }}>
+      <ParallaxLayer speed={0.2} sticky={{ start: 0, end: 0.5 }}>
+
           <h1 className='title'> HealthWay </h1>
           
         </ParallaxLayer>
         <ParallaxLayer speed={1}>
-        <img src={cloud} alt="Tree" style={{ width: '300px', height: 'auto', position:'absolute', top: "0px", left:"10" }}></img>
+        <img src={cloud} alt="Tree" style={{ width: '300px', height: 'auto', position:'absolute', top: "0px", left:"800px" }}></img>
         <img src={cloud} alt="Tree" style={{ width: '300px', height: 'auto', position:'absolute', top: "200px", left:"0" }}></img>
         <img src={cloud} alt="Tree" style={{ width: '300px', height: 'auto', position:'absolute', top: "800px", left:"50px" }}></img>
         <img src={cloud} alt="Tree" style={{ width: '300px', height: 'auto', position:'absolute', top: "600px", right:"400px" }}></img>
@@ -123,9 +122,6 @@ const FadeUp = batch(Fade(), Move(), Sticky());
         <CoolInput onChange={nothing} placeholder="Medical Condition" value={age}></CoolInput>
         <br></br>
         <CoolInput onChange={nothing} placeholder="Gender" value={gender} ></CoolInput>
-        <ScrollAnimation offset="10" animateIn="fadeIn">
-          dthsdfghfgh
-        </ScrollAnimation>
 
 
         <br></br>
@@ -133,30 +129,22 @@ const FadeUp = batch(Fade(), Move(), Sticky());
         <h2>Location:</h2>
         <CoolInput onChange={handleSetLocation} placeholder="Location" value={locationName} ></CoolInput>
         <br></br>
-        <CoolInput onChange={handleSetLat} placeholder="Latitude" value={lat} ></CoolInput>
-        <CoolInput onChange={handleSetLong} placeholder="Longitude" value={long} ></CoolInput>
 
         <br></br>
         <CartoonButton children={"Calculate"} onClick={handleClick} color='green'></CartoonButton>
 
+
+        {isclicked && (
+        <h1>I was clicked</h1>
+      )}
         </ParallaxLayer>
-        {weatherData &&
-        (
-          <ParallaxLayer>
-              I Got Data
-          </ParallaxLayer>
-        )
-        }
-        
-       
+
+     
+
    
       </Parallax>
       </div>
-      <div style={{position:"relative", bottom:"100"}}>
-     
-
-      </div>
-
+      
     </div>
   );
 }
