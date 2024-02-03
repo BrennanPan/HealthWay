@@ -38,6 +38,9 @@ function App() {
 
   const [long, setLong] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
+  const [airQuality, setairQuality] = useState(null);
+  const [pollenData, setPollen] = useState(null);
+
   const [test, setTest] = useState(null);
   const [clicked, setClicked] = useState(false);
 
@@ -62,15 +65,17 @@ function App() {
   const handleClick = async () => {
     try {
       console.log("yre");
-<<<<<<< HEAD
       const response = await axios.post('http://localhost:5000/weather', { 'Latitude': lat, 'Longitude': long});
       setClicked(true);
 
-=======
-      const response = await axios.post('http://localhost:5000/pollen', { 'Latitude': lat, 'Longitude': long});
-      console.log(response.data)
->>>>>>> f1f92cf36da609db18b5dc1e46908135652d338b
-      setWeatherData(response.data)
+/*
+      const responseP = await axios.post('http://localhost:5000/pollen', { 'Latitude': lat, 'Longitude': long});
+      setPollen(responseP.data)
+
+      const responseA = await axios.post('http://localhost:5000/airquality', { 'Latitude': lat, 'Longitude': long});
+      setairQuality(responseA.data);
+
+      */
       console.log("R")
 
     } catch (error) {
