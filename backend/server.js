@@ -15,7 +15,6 @@ app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 
 app.post('/weather', (req, response) =>{
-<<<<<<< HEAD
     const origin = { lat: req.body.Latitude, long: req.body.Longitude};
    
 
@@ -42,14 +41,11 @@ app.post('/weather', (req, response) =>{
         console.log(error);
     });
 }); 
-=======
-    const origin = { lat: req.body.lat, long: req.body.long};
->>>>>>> 682a092c71c755a5168564a1a86df62768ef783a
+
 
     console.log(weatherAPI.getWeather(origin));
     
-    console.log("testing")
-})
+    console.log("testing");
 
 console.log(weatherAPI.getWeather("London"));
 console.log(airqualityAPI.getData());
